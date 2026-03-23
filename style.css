@@ -1,0 +1,1585 @@
+.top-header-bar {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 12px 24px 0 0;
+	box-sizing: border-box;
+}
+
+.coach-login-btn {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0 2px;
+	border-radius: 50%;
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: box-shadow 0.2s;
+	box-shadow: 0 2px 8px 0 rgba(31,38,135,0.10);
+}
+.coach-login-btn svg {
+	display: block;
+	width: 26px;
+	height: 26px;
+}
+.coach-login-btn:hover svg circle:first-child {
+	fill: #d35400;
+}
+/* --- Мобильная адаптивность --- */
+@media (max-width: 600px) {
+	body {
+		font-size: 14px;
+		overflow-x: hidden;
+	}
+	.top-header-bar {
+		padding: 10px 12px 0 0;
+	}
+	.container {
+		padding: 14px;
+		max-width: 100%;
+		margin: 14px 10px;
+		border-radius: 14px;
+	}
+	#page-rating,
+	#page-profile,
+	#page-history,
+	#rating-explanation {
+		margin-top: 14px;
+		margin-bottom: 14px;
+	}
+	#loginPage {
+		margin: 16px auto !important;
+		padding: 16px;
+	}
+	#page-rating h1 {
+		margin-bottom: 8px !important;
+	}
+	table, th, td {
+		font-size: 0.9em;
+		padding: 4px 2px;
+		line-height: 1.05;
+	}
+	.top-bar {
+		flex-direction: column;
+		align-items: stretch;
+		margin-bottom: 0;
+	}
+	#loginBtn {
+		display: none;
+	}
+	h2,
+	label,
+	select,
+	input,
+	button,
+	th,
+	td {
+		font-size: 0.95em;
+	}
+	h1 {
+		font-size: 1.18em;
+		margin-top: 10px;
+		margin-bottom: 14px;
+	}
+	h2 {
+		font-size: 1.02em;
+	}
+	.tab-btn, .coach-login-btn {
+		padding: 4px 8px !important;
+		font-size: 0.88em;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+	.coach-login-btn {
+		width: 30px;
+		height: 30px;
+		min-height: 30px;
+		padding: 0 !important;
+	}
+	.coach-login-btn svg {
+		width: 22px;
+		height: 22px;
+	}
+	#tabs {
+		display: grid !important;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 6px !important;
+	}
+	#tabs .tab-btn,
+	#year-tabs .tab-btn {
+		width: 100%;
+		justify-content: center;
+	}
+	#tabs .tab-btn {
+		padding: 3px 8px !important;
+		font-size: 0.78em;
+	}
+	#year-tabs {
+		display: grid !important;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 6px !important;
+	}
+	.profile-card {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+	.profile-photo-wrap {
+		max-width: 160px;
+		margin: 0 auto;
+	}
+	.profile-main {
+		text-align: center;
+	}
+	.profile-stats-grid {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+	.profile-edit-grid {
+		grid-template-columns: 1fr;
+	}
+	.profile-actions,
+	.tournament-card-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 8px;
+	}
+	.profile-actions .edit-btn,
+	.profile-actions .save-btn,
+	.profile-actions .delete-btn,
+	.tournament-card-actions .edit-btn,
+	.tournament-card-actions .save-btn,
+	.tournament-card-actions .delete-btn,
+	.tournament-card-actions .add-btn,
+	.filter-reset-btn,
+	#addRowBtn {
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.profile-results-block,
+	.profile-history-block,
+	.profile-edit-form,
+	.tournament-section,
+	.tournament-card {
+		padding: 14px;
+		border-radius: 16px;
+	}
+	.profile-yearly-results-scroll {
+		overflow: auto;
+		padding-bottom: 6px;
+		-webkit-overflow-scrolling: touch;
+		touch-action: pan-x pan-y;
+		margin-left: -2px;
+	}
+	.profile-yearly-results-editor {
+		min-width: 860px;
+		padding-right: 6px;
+	}
+	.profile-year-row {
+		grid-template-columns: 72px 62px 56px 56px 56px minmax(160px, 1.1fr) minmax(170px, 1.2fr) 96px;
+		gap: 8px;
+	}
+	.profile-year-row-header {
+		display: grid;
+	}
+	.profile-year-input {
+		padding: 9px 8px;
+	}
+	.profile-year-label {
+		font-size: 0.8em;
+	}
+	.profile-back-btn {
+		width: 100%;
+		margin-bottom: 16px;
+	}
+	.profile-results-list {
+		padding-left: 18px;
+		line-height: 1.55;
+	}
+	.profile-result-year-list {
+		padding-left: 18px;
+		line-height: 1.5;
+	}
+	.profile-history-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+	.profile-history-chart {
+		height: 140px;
+	}
+	.history-label,
+	.history-value {
+		font-size: 10px;
+	}
+	.tournaments-grid {
+		grid-template-columns: 1fr;
+		gap: 14px;
+	}
+	#futureTournamentsList {
+		order: 0;
+	}
+	#pastTournamentsList {
+		order: 1;
+	}
+	#futureTournamentsList,
+	#pastTournamentsList {
+		display: flex;
+		flex-direction: column;
+	}
+	.tournaments-grid > .tournament-section:first-child {
+		order: 2;
+	}
+	.tournaments-grid > .tournament-section:last-child {
+		order: 1;
+	}
+	.tournament-section {
+		padding: 14px;
+		border-radius: 20px;
+	}
+	.tournament-section-header {
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 12px;
+	}
+	.tournament-section-actions {
+		width: 100%;
+		justify-content: flex-start;
+	}
+	.tournament-section-title {
+		font-size: 1.18em;
+		line-height: 1.1;
+	}
+	.tournament-section-badge {
+		padding: 5px 10px;
+		font-size: 0.8em;
+	}
+	.tournament-form-grid {
+		grid-template-columns: 1fr;
+	}
+	.tournament-poster {
+		max-height: 220px;
+		border-radius: 14px;
+		object-fit: contain;
+		background: rgba(255,255,255,0.03);
+		padding: 8px;
+		box-sizing: border-box;
+	}
+	.tournament-card-meta,
+	.tournament-card-details,
+	.tournament-future-place,
+	.tournament-results-list {
+		word-break: break-word;
+	}
+	.tournament-card,
+	.tournament-card-future,
+	.tournament-card-editor {
+		padding: 14px;
+		border-radius: 18px;
+	}
+	.tournament-card-title {
+		font-size: 1.16em;
+		line-height: 1.15;
+	}
+	.tournament-card-meta {
+		font-size: 0.92em;
+		line-height: 1.35;
+	}
+	.tournament-card-details,
+	.tournament-future-place,
+	.tournament-results-list {
+		font-size: 0.96em;
+		line-height: 1.55;
+	}
+	.filters-bar {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		padding: 10px;
+		gap: 8px;
+		margin-bottom: 8px;
+		border-radius: 14px;
+	}
+	.filters-toolbar {
+		justify-content: center;
+		margin-top: 2px;
+		margin-bottom: 4px;
+	}
+	.filters-toggle-btn {
+		width: auto;
+		min-width: 0;
+		min-height: 28px;
+		padding: 3px 10px;
+		font-size: 0.76em;
+		border-radius: 999px;
+	}
+	.filter-field {
+		gap: 4px;
+	}
+	.filter-field span {
+		font-size: 0.76em;
+	}
+	.filter-field select,
+	.filter-field input {
+		padding: 7px 10px;
+		border-radius: 10px;
+		font-size: 0.88em;
+		min-height: 34px;
+	}
+	.filter-search-field {
+		grid-column: 1 / -1;
+	}
+	.filter-reset-btn {
+		grid-column: 1 / -1;
+		width: 100%;
+		min-height: 30px;
+		padding: 4px 10px;
+		font-size: 0.8em;
+	}
+	#year-tabs .tab-btn {
+		padding-left: 6px !important;
+		padding-right: 6px !important;
+		padding-top: 3px !important;
+		padding-bottom: 3px !important;
+		font-size: 0.7em;
+	}
+	#tabs, #year-tabs {
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	/* Горизонтальная прокрутка для таблицы */
+	.table-scroll-wrapper {
+		width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		padding-bottom: 4px;
+	}
+	table {
+		min-width: 440px;
+	}
+	th {
+		font-size: 0.98em;
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
+	#ratingTable td {
+		padding-top: 3px;
+		padding-bottom: 3px;
+	}
+	#ratingTable th:nth-child(2),
+	#ratingTable td:nth-child(2) {
+		width: 76px;
+		max-width: 76px;
+		word-break: break-word;
+		line-height: 1.15;
+	}
+	#ratingTable th:nth-child(1),
+	#ratingTable td:nth-child(1) {
+		width: 30px;
+		max-width: 30px;
+	}
+	#ratingTable th:nth-child(3),
+	#ratingTable td:nth-child(3) {
+		width: 70px;
+		max-width: 70px;
+		word-break: break-word;
+		line-height: 1.15;
+	}
+	#ratingTable th:nth-child(4),
+	#ratingTable td:nth-child(4),
+	#ratingTable th:nth-child(5),
+	#ratingTable td:nth-child(5),
+	#ratingTable th:nth-child(6),
+	#ratingTable td:nth-child(6) {
+		width: 24px;
+		max-width: 24px;
+		padding-left: 1px;
+		padding-right: 1px;
+	}
+	#ratingTable th:nth-child(7),
+	#ratingTable td:nth-child(7) {
+		width: 46px;
+		max-width: 46px;
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+	#ratingTable input {
+		font-size: 0.9em;
+		padding: 3px 3px;
+		min-height: 28px;
+		line-height: 1;
+	}
+	.login-input {
+		width: 100%;
+		margin-bottom: 8px;
+		min-height: 40px;
+	}
+	.edit-btn,
+	.save-btn,
+	.delete-btn,
+	.add-btn,
+	.profile-back-btn {
+		padding: 5px 10px;
+		font-size: 0.85em;
+		border-radius: 10px;
+		min-height: 34px;
+	}
+	select,
+	input,
+	textarea,
+	button {
+		min-height: 34px;
+	}
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+}
+/* Овальные кнопки страниц */
+.tab-btn {
+	border-radius: 32px !important;
+	padding-left: 32px !important;
+	padding-right: 32px !important;
+}
+
+#year-tabs .tab-btn {
+	padding-left: 22px !important;
+	padding-right: 22px !important;
+	font-size: 0.98em;
+}
+
+/* Анимация появления */
+.fade-in {
+	opacity: 0;
+	transform: translateY(-30px);
+	animation: fadeInMove 1.2s cubic-bezier(.23,1.01,.32,1) forwards;
+}
+
+@keyframes fadeInMove {
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Анимация для вкладок годов */
+.year-tabs-animate {
+	animation: yearTabsFadeIn 0.7s cubic-bezier(.23,1.01,.32,1) forwards;
+}
+
+.year-tabs-hide {
+	animation: yearTabsFadeOut 0.5s cubic-bezier(.23,1.01,.32,1) forwards;
+}
+
+@keyframes yearTabsFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.95);
+		pointer-events: none;
+	}
+	to {
+		opacity: 1;
+		transform: none;
+		pointer-events: auto;
+	}
+}
+
+@keyframes yearTabsFadeOut {
+	from {
+		opacity: 1;
+		transform: none;
+		pointer-events: auto;
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.95);
+		pointer-events: none;
+	}
+}
+
+body {
+	background:
+		radial-gradient(circle at top, rgba(243, 142, 33, 0.16), transparent 34%),
+		linear-gradient(160deg, #1f2024 0%, #2a2d35 48%, #25272d 100%);
+	color: #fff;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 30px;
+	letter-spacing: 1px;
+	font-weight: 800;
+}
+
+.container {
+	max-width: 900px;
+	margin: 40px auto;
+	background: linear-gradient(180deg, rgba(34,34,37,0.96), rgba(28,28,30,0.94));
+	border-radius: 24px;
+	box-shadow: 0 18px 44px rgba(0,0,0,0.28);
+	border: 1px solid rgba(255,255,255,0.05);
+	padding: 32px;
+}
+
+.top-nav-shell {
+	border: none;
+	box-shadow: none;
+	background: transparent;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background: rgba(255,255,255,0.04);
+	border-radius: 18px;
+	overflow: hidden;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.filters-toolbar {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+}
+
+.filters-toggle-btn {
+	background: rgba(255,255,255,0.05);
+	color: #fff;
+	border: 1px solid rgba(255,255,255,0.1);
+	border-radius: 999px;
+	padding: 8px 16px;
+	cursor: pointer;
+	font: inherit;
+	font-size: 0.92em;
+	transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+	box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+}
+
+.filters-toggle-btn:hover {
+	background: rgba(230,126,34,0.14);
+	border-color: rgba(230,126,34,0.45);
+	transform: translateY(-1px);
+}
+
+.filters-toggle-btn-active {
+	background: rgba(230,126,34,0.18);
+	border-color: rgba(230,126,34,0.55);
+	color: #ffcf9d;
+}
+
+.filters-bar {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+	gap: 12px;
+	align-items: end;
+	margin-bottom: 18px;
+	padding: 18px;
+	background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.025));
+	border-radius: 18px;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 10px 24px rgba(0,0,0,0.14);
+}
+
+.filter-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	text-align: left;
+}
+
+.filter-field span {
+	font-size: 0.9em;
+	color: #bdbdbd;
+}
+
+.filter-field select,
+.filter-field input {
+	width: 100%;
+	box-sizing: border-box;
+	background: rgba(255,255,255,0.07);
+	border: 1px solid rgba(255,255,255,0.10);
+	border-radius: 14px;
+	padding: 10px 12px;
+	color: #fff;
+	font: inherit;
+}
+
+.filter-field option {
+	color: #111;
+}
+
+.filter-search-field {
+	grid-column: span 1;
+}
+
+.filter-reset-btn {
+	align-self: stretch;
+	min-width: 120px;
+}
+
+.tournaments-page {
+	text-align: left;
+}
+
+.tournaments-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 18px;
+	margin-top: 20px;
+}
+
+.tournament-section {
+	background: rgba(255,255,255,0.04);
+	border-radius: 20px;
+	padding: 20px;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.tournament-section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 16px;
+}
+
+.tournament-section-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.tournament-section-title {
+	margin: 0;
+	font-size: 1.2em;
+}
+
+.tournament-section-badge {
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: rgba(230,126,34,0.18);
+	color: #ffcf9d;
+	font-size: 0.88em;
+}
+
+.tournament-section-badge-future {
+	background: rgba(46,204,113,0.15);
+	color: #9cf0be;
+}
+
+.tournaments-list {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.tournament-card {
+	background: rgba(255,255,255,0.04);
+	border-radius: 16px;
+	padding: 16px;
+	border: 1px solid rgba(255,255,255,0.06);
+}
+
+.tournament-card-editor {
+	border-color: rgba(230,126,34,0.22);
+	background: rgba(230,126,34,0.05);
+}
+
+.tournament-card-future {
+	border-color: rgba(46,204,113,0.18);
+	background: rgba(46,204,113,0.05);
+}
+
+.tournament-poster {
+	width: 100%;
+	max-height: 220px;
+	object-fit: cover;
+	border-radius: 14px;
+	margin-bottom: 12px;
+	display: block;
+}
+
+.tournament-card-meta {
+	color: #aeb2b6;
+	font-size: 0.9em;
+	margin-bottom: 8px;
+}
+
+.tournament-card-title {
+	margin: 0 0 10px;
+	font-size: 1.08em;
+	color: #fff;
+}
+
+.tournament-card-details {
+	color: #d5d5d5;
+	line-height: 1.6;
+	margin-bottom: 10px;
+}
+
+.tournament-results-list {
+	margin: 0;
+	padding-left: 18px;
+	color: #ddd;
+	line-height: 1.6;
+}
+
+.tournament-future-place {
+	color: #ddd;
+	line-height: 1.5;
+}
+
+.tournament-card-actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-top: 14px;
+}
+
+.tournament-form-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.tournament-form-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	text-align: left;
+	color: #ddd;
+}
+
+.tournament-form-field span {
+	font-size: 0.9em;
+	color: #bdbdbd;
+}
+
+.tournament-form-field input,
+.tournament-form-field textarea {
+	width: 100%;
+	box-sizing: border-box;
+	background: rgba(255,255,255,0.06);
+	border: 1px solid rgba(255,255,255,0.12);
+	border-radius: 12px;
+	padding: 10px 12px;
+	color: #fff;
+	font: inherit;
+}
+
+.tournament-form-field textarea {
+	resize: vertical;
+	min-height: 110px;
+}
+
+.tournament-form-field-full {
+	grid-column: 1 / -1;
+}
+
+@media (max-width: 820px) {
+	.tournaments-grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+
+	.tournament-section {
+		padding: 18px;
+		border-radius: 24px;
+	}
+
+	.tournament-section-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+		margin-bottom: 14px;
+	}
+
+	.tournament-section-actions {
+		width: 100%;
+		justify-content: flex-start;
+		gap: 8px;
+	}
+
+	.tournament-section-title {
+		font-size: 1.4em;
+		line-height: 1.1;
+	}
+
+	.tournament-card,
+	.tournament-card-future,
+	.tournament-card-editor {
+		padding: 16px;
+		border-radius: 22px;
+	}
+
+	.tournament-poster {
+		max-height: 320px;
+		object-fit: contain;
+		background: rgba(255,255,255,0.04);
+		padding: 10px;
+		box-sizing: border-box;
+	}
+
+	.tournament-card-meta {
+		font-size: 1em;
+		line-height: 1.4;
+		word-break: break-word;
+	}
+
+	.tournament-card-title {
+		font-size: 1.4em;
+		line-height: 1.12;
+		margin-bottom: 12px;
+		word-break: break-word;
+	}
+
+	.tournament-future-place,
+	.tournament-card-details,
+	.tournament-results-list {
+		font-size: 1em;
+		line-height: 1.6;
+		word-break: break-word;
+	}
+}
+
+th, td {
+	padding: 14px 10px;
+	text-align: center;
+}
+
+th {
+	background: rgba(24,24,26,0.95);
+	font-size: 1.1em;
+	letter-spacing: 1px;
+}
+
+tr:nth-child(even) {
+	background: rgba(255,255,255,0.045);
+}
+
+tr:hover {
+	background: rgba(255,255,255,0.09);
+}
+
+.participant-link {
+	background: none;
+	border: none;
+	color: #fff7ea;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+	padding: 0;
+	text-decoration: underline;
+	text-decoration-color: rgba(230,126,34,0.55);
+	text-underline-offset: 4px;
+}
+
+.participant-link:hover {
+	color: #f39a0a;
+	text-decoration-color: #f39a0a;
+}
+
+.top-row-1 {
+	background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.08));
+}
+
+.top-row-2 {
+	background: linear-gradient(90deg, rgba(192, 192, 192, 0.18), rgba(192, 192, 192, 0.07));
+}
+
+.top-row-3 {
+	background: linear-gradient(90deg, rgba(205, 127, 50, 0.2), rgba(205, 127, 50, 0.08));
+}
+
+.top-row-1:hover {
+	background: rgba(255, 215, 0, 0.18);
+}
+
+.top-row-2:hover {
+	background: rgba(192, 192, 192, 0.18);
+}
+
+.top-row-3:hover {
+	background: rgba(205, 127, 50, 0.18);
+}
+
+.participant-name {
+	vertical-align: middle;
+	font-weight: 600;
+}
+
+.profile-back-btn {
+	background: transparent;
+	color: #f3b35a;
+	border: 1px solid rgba(243,179,90,0.45);
+	border-radius: 999px;
+	padding: 8px 16px;
+	cursor: pointer;
+	margin-bottom: 24px;
+	font-size: 0.95em;
+}
+
+.profile-back-btn:hover {
+	background: rgba(243,179,90,0.1);
+}
+
+.profile-card {
+	display: grid;
+	grid-template-columns: 260px 1fr;
+	gap: 28px;
+	align-items: start;
+}
+
+.profile-photo-wrap {
+	background: rgba(255,255,255,0.04);
+	border-radius: 24px;
+	padding: 14px;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+.profile-photo {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: 18px;
+	display: block;
+}
+
+.profile-main {
+	min-width: 0;
+}
+
+.profile-subtitle {
+	color: #b8b8b8;
+	margin-bottom: 24px;
+	font-size: 1.05em;
+}
+
+.profile-actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+.profile-stats-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+	margin-bottom: 24px;
+}
+
+.profile-stat-item {
+	background: rgba(255,255,255,0.04);
+	border-radius: 16px;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.profile-stat-label {
+	color: #aaa;
+	font-size: 0.92em;
+}
+
+.profile-stat-value {
+	font-size: 1.12em;
+	font-weight: 600;
+	color: #fff;
+}
+
+.profile-results-block {
+	background: rgba(255,255,255,0.04);
+	border-radius: 20px;
+	padding: 20px;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.profile-results-title {
+	margin: 0 0 14px;
+	font-size: 1.15em;
+	color: #fff;
+}
+
+.profile-results-list {
+	margin: 0;
+	padding-left: 22px;
+	color: #ddd;
+	line-height: 1.7;
+}
+
+.profile-result-year-item + .profile-result-year-item {
+	margin-top: 12px;
+}
+
+.profile-result-year-title {
+	font-weight: 700;
+	color: #fff;
+	margin-bottom: 6px;
+}
+
+.profile-result-year-list {
+	margin: 0;
+	padding-left: 20px;
+	color: #d8d8d8;
+}
+
+.profile-history-block {
+	margin-top: 24px;
+	background: rgba(255,255,255,0.04);
+	border-radius: 20px;
+	padding: 20px;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.profile-history-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.profile-history-trend {
+	padding: 6px 12px;
+	border-radius: 999px;
+	font-size: 0.9em;
+	background: rgba(255,255,255,0.06);
+	color: #ddd;
+}
+
+.profile-history-trend.trend-up {
+	background: rgba(46, 204, 113, 0.15);
+	color: #8df0b6;
+}
+
+.profile-history-trend.trend-down {
+	background: rgba(231, 76, 60, 0.15);
+	color: #ffb0a8;
+}
+
+.profile-history-chart-wrap {
+	width: 100%;
+	background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+	border-radius: 16px;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-bottom: 12px;
+}
+
+.profile-history-chart {
+	width: 100%;
+	height: 160px;
+	display: block;
+}
+
+.history-axis {
+	stroke: rgba(255,255,255,0.18);
+	stroke-width: 1;
+}
+
+.history-line {
+	fill: none;
+	stroke: #f39a0a;
+	stroke-width: 3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.history-point {
+	fill: #fff;
+	stroke: #f39a0a;
+	stroke-width: 3;
+}
+
+.history-label {
+	fill: #aeb2b6;
+	font-size: 12px;
+}
+
+.history-value {
+	fill: #fff;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.profile-history-caption {
+	color: #b8b8b8;
+	font-size: 0.94em;
+	margin-bottom: 12px;
+}
+
+.profile-history-list {
+	margin: 0;
+	padding-left: 20px;
+	color: #ddd;
+	line-height: 1.7;
+}
+
+.profile-history-item {
+	margin-bottom: 2px;
+}
+
+.profile-edit-form {
+	margin-top: 8px;
+	background: rgba(255,255,255,0.04);
+	border-radius: 20px;
+	padding: 20px;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.profile-edit-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+	margin-bottom: 14px;
+}
+
+.profile-edit-field {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	text-align: left;
+	color: #d8d8d8;
+}
+
+.profile-edit-field span {
+	font-size: 0.92em;
+	color: #aaa;
+}
+
+.profile-edit-field input,
+.profile-edit-field textarea {
+	width: 100%;
+	box-sizing: border-box;
+	background: rgba(255,255,255,0.06);
+	border: 1px solid rgba(255,255,255,0.12);
+	border-radius: 12px;
+	padding: 10px 12px;
+	color: #fff;
+	font: inherit;
+}
+
+.profile-edit-field textarea {
+	resize: vertical;
+	min-height: 120px;
+}
+
+.profile-edit-field-full {
+	margin-top: 4px;
+}
+
+.profile-yearly-results-scroll {
+	width: 100%;
+	overflow: auto;
+	padding-bottom: 4px;
+	display: flex;
+	justify-content: flex-start;
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior-x: contain;
+	touch-action: pan-x pan-y;
+}
+
+.profile-yearly-results-editor {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 4px;
+	width: max-content;
+	min-width: 1000px;
+	margin-left: 0;
+	margin-right: 0;
+	padding-right: 10px;
+}
+
+.profile-year-row {
+	display: grid;
+	grid-template-columns: 88px 82px 72px 72px 72px minmax(180px, 1.2fr) minmax(180px, 1.4fr) auto;
+	gap: 10px;
+	align-items: center;
+}
+
+.profile-year-row-header {
+	padding: 0 2px;
+	margin-bottom: 2px;
+}
+
+.profile-year-label {
+	font-size: 0.88em;
+	font-weight: 700;
+	color: #cfcfcf;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.profile-year-label-medal {
+	font-size: 1.1em;
+}
+
+.profile-year-input {
+	width: 100%;
+	box-sizing: border-box;
+	background: rgba(255,255,255,0.06);
+	border: 1px solid rgba(255,255,255,0.12);
+	border-radius: 12px;
+	padding: 10px 12px;
+	color: #fff;
+	font: inherit;
+}
+
+.profile-year-value {
+	text-align: center;
+}
+
+.profile-year-medal,
+.profile-year-value {
+	text-align: center;
+}
+
+.profile-year-month {
+	text-align: center;
+}
+
+.profile-year-tournament,
+.profile-year-comment {
+	text-align: left;
+}
+
+.profile-result-remove {
+	white-space: nowrap;
+}
+
+.profile-add-result-btn {
+	margin-top: 12px;
+	align-self: flex-start;
+}
+
+.edit-btn, .save-btn, .delete-btn, .add-btn {
+	background: #e67e22;
+	color: #fff;
+	border: none;
+	border-radius: 12px;
+	padding: 6px 14px;
+	margin: 2px;
+	cursor: pointer;
+	font-size: 1em;
+	transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+	box-shadow: 0 10px 18px rgba(230,126,34,0.18);
+}
+
+.edit-btn:hover, .save-btn:hover, .delete-btn:hover, .add-btn:hover {
+	background: #d35400;
+	transform: translateY(-1px);
+}
+
+.hidden {
+	display: none;
+}
+
+.top-bar {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+}
+
+.login-input {
+	padding: 4px 8px;
+	border-radius: 10px;
+	border: 1px solid #888;
+	margin-right: 8px;
+}
+
+@media (max-width: 600px) {
+	#page-profile {
+		overflow: hidden;
+	}
+
+	#page-profile .profile-card {
+		display: grid;
+		grid-template-columns: 1fr !important;
+		gap: 16px;
+		align-items: start;
+	}
+
+	#page-profile .profile-photo-wrap {
+		width: min(100%, 220px);
+		max-width: 220px;
+		margin: 0 auto;
+	}
+
+	#page-profile .profile-main {
+		min-width: 0;
+		width: 100%;
+		text-align: left;
+		overflow: hidden;
+	}
+
+	#page-profile #profileName {
+		font-size: 1.45rem;
+		line-height: 1.1;
+		word-break: break-word;
+		margin-bottom: 8px !important;
+		text-align: left;
+	}
+
+	#page-profile .profile-subtitle {
+		margin-bottom: 16px;
+		font-size: 1em;
+		line-height: 1.45;
+		text-align: left;
+	}
+
+	#page-profile .profile-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 8px;
+	}
+
+	#page-profile .profile-stats-grid {
+		grid-template-columns: 1fr !important;
+		gap: 10px;
+		margin-bottom: 18px;
+	}
+
+	#page-profile .profile-stat-item {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 14px;
+		border-radius: 18px;
+		text-align: left;
+	}
+
+	#page-profile .profile-stat-label {
+		font-size: 0.88em;
+		line-height: 1.35;
+	}
+
+	#page-profile .profile-stat-value {
+		font-size: 1.08em;
+		line-height: 1.35;
+	}
+
+	#page-profile .profile-stat-label,
+	#page-profile .profile-stat-value,
+	#page-profile .profile-results-title,
+	#page-profile .profile-history-caption,
+	#page-profile .profile-history-trend,
+	#page-profile .profile-history-item,
+	#page-profile .profile-result-year-title,
+	#page-profile .profile-result-year-list,
+	#page-profile .profile-results-list {
+		word-break: normal;
+		overflow-wrap: break-word;
+		hyphens: auto;
+	}
+
+	#page-profile .profile-results-title {
+		font-size: 1.12em;
+		line-height: 1.2;
+		margin-bottom: 12px;
+		text-align: left;
+	}
+
+	#page-profile .profile-results-list {
+		padding-left: 20px;
+		line-height: 1.7;
+		font-size: 1em;
+		text-align: left;
+	}
+
+	#page-profile .profile-result-year-item + .profile-result-year-item {
+		margin-top: 14px;
+	}
+
+	#page-profile .profile-result-year-title {
+		font-size: 1.08em;
+		line-height: 1.35;
+		margin-bottom: 8px;
+		text-align: left;
+	}
+
+	#page-profile .profile-result-year-list {
+		padding-left: 18px;
+		line-height: 1.75;
+		font-size: 0.98em;
+		text-align: left;
+	}
+
+	#page-profile .profile-history-caption,
+	#page-profile .profile-history-item {
+		font-size: 0.96em;
+		line-height: 1.6;
+		text-align: left;
+	}
+
+	#page-profile .profile-results-block,
+	#page-profile .profile-history-block,
+	#page-profile .profile-edit-form {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 14px;
+		border-radius: 18px;
+	}
+
+	#page-profile .profile-history-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	#page-profile .profile-history-chart-wrap {
+		padding: 8px;
+	}
+
+	#page-profile .profile-history-chart {
+		height: 130px;
+	}
+
+	#page-profile .profile-edit-grid {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+
+	#page-profile .profile-edit-field {
+		text-align: left;
+	}
+
+	#page-profile .profile-edit-field input,
+	#page-profile .profile-edit-field select,
+	#page-profile .profile-edit-field textarea {
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
+	#page-profile .profile-yearly-results-scroll {
+		width: 100%;
+		margin-left: 0;
+		padding-bottom: 8px;
+	}
+
+	#page-profile .profile-yearly-results-editor {
+		min-width: 860px;
+	}
+
+	#page-profile .profile-back-btn {
+		width: 100%;
+		box-sizing: border-box;
+		margin-bottom: 14px;
+	}
+}
+
+#page-rating {
+	position: relative;
+	overflow: hidden;
+}
+
+#page-rating::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 130px;
+	background: linear-gradient(180deg, rgba(243, 142, 33, 0.08), transparent);
+	pointer-events: none;
+}
+
+#page-rating h1 {
+	position: relative;
+	z-index: 1;
+	font-size: 2.1rem;
+	margin-bottom: 14px !important;
+}
+
+#lastUpdate {
+	margin-top: 18px !important;
+	padding-top: 12px;
+	border-top: 1px solid rgba(255,255,255,0.12);
+	color: #b8bcc4 !important;
+	font-size: 0.9em !important;
+	text-align: center !important;
+}
+
+@media (max-width: 600px) {
+	body {
+		background:
+			radial-gradient(circle at top, rgba(243, 142, 33, 0.14), transparent 30%),
+			linear-gradient(180deg, #24262b 0%, #2a2d34 55%, #282a31 100%);
+	}
+	.container {
+		padding: 16px;
+		margin: 10px 10px 14px;
+		border-radius: 24px;
+		box-shadow: 0 14px 28px rgba(0,0,0,0.24);
+	}
+	.top-nav-shell {
+		padding: 0;
+		margin: 0 10px 14px;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	#page-rating h1 {
+		font-size: 1.5rem;
+		margin-top: 2px;
+		margin-bottom: 10px !important;
+	}
+	#tabs .tab-btn {
+		padding: 5px 10px !important;
+		font-size: 0.88em;
+		border-radius: 999px !important;
+		box-shadow: inset 0 -2px 0 rgba(0,0,0,0.32);
+	}
+	#year-tabs .tab-btn {
+		padding-left: 10px !important;
+		padding-right: 10px !important;
+		padding-top: 5px !important;
+		padding-bottom: 5px !important;
+		font-size: 0.86em;
+		border-radius: 999px !important;
+		box-shadow: inset 0 -2px 0 rgba(0,0,0,0.32);
+	}
+	.filters-toolbar {
+		justify-content: flex-end;
+		margin-top: -2px;
+		margin-bottom: 8px;
+	}
+	.filters-toggle-btn {
+		padding: 7px 14px;
+		font-size: 0.86em;
+		background: rgba(255,255,255,0.06);
+	}
+	.filters-bar {
+		padding: 12px;
+		gap: 10px;
+		border-radius: 18px;
+	}
+	.table-scroll-wrapper {
+		margin-top: 6px;
+		background: rgba(255,255,255,0.025);
+		border-radius: 20px;
+		padding: 10px;
+		box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+	}
+	table {
+		border-radius: 16px;
+	}
+	th {
+		font-size: 0.95em;
+		background: rgba(31,31,34,0.98);
+	}
+	#ratingTable td {
+		font-size: 0.98em;
+	}
+	#lastUpdate {
+		margin-top: 10px !important;
+		padding-top: 10px;
+		font-size: 0.82em !important;
+	}
+}

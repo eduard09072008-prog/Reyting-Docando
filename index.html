@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Рейтинг WDF</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="top-header-bar">
+    <button class="coach-login-btn" onclick="showLoginPage()" aria-label="Вхід для тренерів">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="13" cy="13" r="13" fill="#e67e22"/>
+        <circle cx="13" cy="10" r="4.2" fill="#fff"/>
+        <ellipse cx="13" cy="18.2" rx="6.2" ry="3.2" fill="#fff"/>
+      </svg>
+    </button>
+  </div>
+  <div style="text-align:center;margin-top:24px;margin-bottom:32px;" class="fade-in">
+    <img src="images/1-Log_lenta.png" alt="WDF Federation" style="max-width:600px;width:100%;height:auto;display:block;margin:0 auto 12px auto;">
+  </div>
+  <div class="container fade-in top-nav-shell" style="max-width:900px;margin:0 auto 24px auto;padding:0;background:transparent;box-shadow:none;">
+    <div id="tabs" style="display:flex;justify-content:center;gap:12px;">
+      <button id="tab-rating" class="tab-btn" style="padding:10px 28px;font-size:1.1em;border:none;background:#e67e22;color:#fff;cursor:pointer;">Рейтинг</button>
+      <button id="tab-history" class="tab-btn" style="padding:10px 28px;font-size:1.1em;border:none;background:#222;color:#fff;cursor:pointer;">Події</button>
+    </div>
+    <div id="year-tabs-wrapper">
+      <div id="year-tabs" class="year-tabs-animate" style="display:flex;justify-content:center;gap:10px;margin-top:18px;">
+        <button id="year-all" class="tab-btn" style="background:#e67e22;color:#fff;">Усі роки</button>
+        <button id="year-2026" class="tab-btn" style="background:#222;color:#fff;">2026</button>
+        <button id="year-2025" class="tab-btn" style="background:#222;color:#fff;">2025</button>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="page-rating">
+    <h1 style="margin-bottom:18px;">Рейтинг</h1>
+    <div class="top-bar">
+      <button onclick="logout()" class="edit-btn hidden" id="logoutBtn">Вийти</button>
+    </div>
+    <div id="loginPage" class="container hidden" style="max-width:400px;margin:40px auto;">
+      <h2>Вхід для тренера</h2>
+      <label>Оберіть школу:</label>
+      <select id="schoolSelect">
+        <option value="">-- Оберіть --</option>
+      </select>
+      <br><br>
+      <input type="password" id="coachPass" class="login-input" placeholder="Пароль тренера">
+      <br><br>
+      <button onclick="login()" class="edit-btn">Увійти</button>
+    </div>
+    <div class="filters-toolbar">
+      <button type="button" id="filtersToggleBtn" class="filters-toggle-btn" onclick="toggleFilters()">Фільтри</button>
+    </div>
+    <div id="filtersPanel" class="filters-bar hidden">
+      <label class="filter-field">
+        <span>Вік</span>
+        <select id="filterAgeGroup">
+          <option value="all">Усі</option>
+          <option value="children">Діти</option>
+          <option value="juniors">Юніори</option>
+          <option value="adults">Дорослі</option>
+        </select>
+      </label>
+      <label class="filter-field">
+        <span>Вагова категорія</span>
+        <select id="filterWeightCategory">
+          <option value="all">Усі</option>
+        </select>
+      </label>
+      <label class="filter-field">
+        <span>Клуб</span>
+        <select id="filterClub">
+          <option value="all">Усі</option>
+        </select>
+      </label>
+      <label class="filter-field filter-search-field">
+        <span>Пошук за ім'ям</span>
+        <input id="filterNameSearch" type="text" placeholder="Введіть ім'я">
+      </label>
+      <button type="button" class="edit-btn filter-reset-btn" onclick="resetFilters()">Скинути</button>
+    </div>
+    <div class="table-scroll-wrapper">
+      <table id="ratingTable">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>ПІБ</th>
+          <th>Школа</th>
+          <th>🥇</th>
+          <th>🥈</th>
+          <th>🥉</th>
+          <th>Рейтинг</th>
+          <th class="admin-col hidden">Дії</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Дані з'являться тут -->
+      </tbody>
+    </table>
+    <button class="add-btn hidden" id="addRowBtn" onclick="addRow()">Додати учасника</button>
+    <div id="lastUpdate" style="text-align:right;color:#aaa;font-size:1em;margin-top:10px;">Останнє оновлення: —</div>
+    </div>
+  </div>
+  <div class="container hidden" id="page-profile">
+    <button class="profile-back-btn" onclick="closeAthleteProfile()">Назад до рейтингу</button>
+    <div class="profile-card">
+      <div class="profile-photo-wrap">
+        <img id="profilePhoto" class="profile-photo" src="images/athlete-placeholder.svg" alt="Фото спортсмена">
+      </div>
+      <div class="profile-main">
+        <h1 id="profileName" style="margin-bottom:10px;">Профіль спортсмена</h1>
+        <div class="profile-subtitle">Профіль спортсмена</div>
+        <div id="profileActions" class="profile-actions hidden">
+          <button id="editProfileBtn" class="edit-btn" onclick="startProfileEdit()">Редагувати профіль</button>
+          <button id="saveProfileBtn" class="save-btn hidden" onclick="saveAthleteProfile()">Зберегти</button>
+          <button id="cancelProfileBtn" class="delete-btn hidden" onclick="cancelProfileEdit()">Скасувати</button>
+        </div>
+        <div class="profile-stats-grid">
+          <div class="profile-stat-item">
+            <span class="profile-stat-label">Вік</span>
+            <span id="profileAge" class="profile-stat-value">-</span>
+          </div>
+          <div class="profile-stat-item">
+            <span class="profile-stat-label">Клуб</span>
+            <span id="profileClub" class="profile-stat-value">-</span>
+          </div>
+          <div class="profile-stat-item">
+            <span class="profile-stat-label">Вагова категорія</span>
+            <span id="profileWeightCategory" class="profile-stat-value">-</span>
+          </div>
+          <div class="profile-stat-item">
+            <span class="profile-stat-label">Школа</span>
+            <span id="profileSchool" class="profile-stat-value">-</span>
+          </div>
+          <div class="profile-stat-item">
+            <span class="profile-stat-label">Кількість сутичок</span>
+            <span id="profileFights" class="profile-stat-value">-</span>
+          </div>
+        </div>
+        <div class="profile-results-block">
+          <h2 class="profile-results-title">Результати за роками</h2>
+          <ul id="profileResults" class="profile-results-list"></ul>
+        </div>
+        <div class="profile-history-block">
+          <div class="profile-history-header">
+            <h2 class="profile-results-title">Історія рейтингу 📈</h2>
+            <span id="profileHistoryTrend" class="profile-history-trend">Без змін</span>
+          </div>
+          <div class="profile-history-chart-wrap">
+            <svg id="profileHistoryChart" class="profile-history-chart" viewBox="0 0 360 160" preserveAspectRatio="none"></svg>
+          </div>
+          <div id="profileHistoryCaption" class="profile-history-caption">Як змінювалося місце спортсмена</div>
+          <ul id="profileHistoryList" class="profile-history-list"></ul>
+        </div>
+        <form id="profileEditForm" class="profile-edit-form hidden" onsubmit="event.preventDefault(); saveAthleteProfile();">
+          <div class="profile-edit-grid">
+            <label class="profile-edit-field">
+              <span>Ім'я та прізвище</span>
+              <input id="editProfileName" type="text">
+            </label>
+            <label class="profile-edit-field">
+              <span>Фото: шлях або data URL</span>
+              <input id="editProfilePhoto" type="text" placeholder="images/photo.png">
+            </label>
+            <label class="profile-edit-field">
+              <span>Завантажити реальне фото</span>
+              <input id="editProfilePhotoFile" type="file" accept="image/*" onchange="uploadProfilePhoto(event)">
+            </label>
+            <label class="profile-edit-field">
+              <span>Вік</span>
+              <input id="editProfileAge" type="number" min="0">
+            </label>
+            <label class="profile-edit-field">
+              <span>Клуб</span>
+              <input id="editProfileClub" type="text">
+            </label>
+            <label class="profile-edit-field">
+              <span>Вагова категорія</span>
+              <input id="editProfileWeightCategory" type="text" placeholder="Наприклад: 32 кг">
+            </label>
+            <label class="profile-edit-field hidden" id="editProfileSchoolWrap">
+              <span>Школа</span>
+              <select id="editProfileSchool"></select>
+            </label>
+          </div>
+          <div class="profile-edit-field profile-edit-field-full">
+            <span>Результати за роками</span>
+            <div class="profile-yearly-results-scroll">
+              <div id="profileYearlyResultsEditor" class="profile-yearly-results-editor"></div>
+            </div>
+            <button type="button" class="add-btn profile-add-result-btn" onclick="addYearlyResultRow()">Додати результат</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container hidden tournaments-page" id="page-history">
+    <h1 style="margin-top:0;">Події</h1>
+    <div class="tournaments-grid">
+      <section class="tournament-section">
+        <div class="tournament-section-header">
+          <h2 class="tournament-section-title">Минулі події</h2>
+          <div class="tournament-section-actions">
+            <span class="tournament-section-badge">Результати</span>
+            <button type="button" id="addPastTournamentBtn" class="add-btn hidden" onclick="startTournamentCreate('past')">Додати</button>
+          </div>
+        </div>
+        <div id="pastTournamentsList" class="tournaments-list"></div>
+      </section>
+      <section class="tournament-section">
+        <div class="tournament-section-header">
+          <h2 class="tournament-section-title">Майбутні події</h2>
+          <div class="tournament-section-actions">
+            <span class="tournament-section-badge tournament-section-badge-future">Анонси</span>
+            <button type="button" id="addFutureTournamentBtn" class="add-btn hidden" onclick="startTournamentCreate('future')">Додати</button>
+          </div>
+        </div>
+        <div id="futureTournamentsList" class="tournaments-list"></div>
+      </section>
+    </div>
+  </div>
+  <div class="container" style="max-width:900px;margin:40px auto;margin-bottom:40px;background:rgba(30,30,30,0.92);border-radius:16px;padding:24px;" id="rating-explanation">
+    <h2 style="margin-top:0;font-size:1.3em;">Система рейтингу спортсменів</h2>
+    <div style="font-size:1.1em;line-height:1.7;">
+      Для об'єктивної оцінки досягнень спортсменів використовується прозора та зрозуміла система рейтингу, яка базується на результатах виступів на змаганнях різного рівня.<br><br>
+      <b>🏆 Бали за зайняте місце</b><br>
+      Основою розрахунку є призові місця:<br>
+      1 місце — <b>10 балів</b><br>
+      2 місце — <b>7 балів</b><br>
+      3 місце — <b>5 балів</b><br><br>
+      <b>🔹 Активність спортсмена</b><br>
+      При відсутності виступів понад 3 місяці загальний рейтинг знижується на 5%
+    </div>
+  </div>
+  <script>
+    // Вкладки страниц
+    const tabRating = document.getElementById('tab-rating');
+    const tabHistory = document.getElementById('tab-history');
+    const pageRating = document.getElementById('page-rating');
+    const pageProfile = document.getElementById('page-profile');
+    const pageHistory = document.getElementById('page-history');
+    const ratingExplanation = document.getElementById('rating-explanation');
+    const STORAGE_KEY = 'wdf-athletes-data-v1';
+   const TOURNAMENTS_STORAGE_KEY = 'wdf-tournaments-data-v1';
+
+    // Анімація появи/зникнення вкладок років
+    function showYearTabs() {
+      const wrapper = document.getElementById('year-tabs-wrapper');
+      const tabs = document.getElementById('year-tabs');
+      wrapper.style.display = 'block';
+      tabs.classList.remove('year-tabs-hide');
+      tabs.classList.add('year-tabs-animate');
+    }
+    function hideYearTabs() {
+      const wrapper = document.getElementById('year-tabs-wrapper');
+      const tabs = document.getElementById('year-tabs');
+      tabs.classList.remove('year-tabs-animate');
+      tabs.classList.add('year-tabs-hide');
+      setTimeout(() => { wrapper.style.display = 'none'; }, 500);
+    }
+
+    tabRating.onclick = function() {
+      tabRating.style.background = '#e67e22';
+      tabHistory.style.background = '#222';
+      pageProfile.classList.add('hidden');
+      pageRating.classList.remove('hidden');
+      pageHistory.classList.add('hidden');
+      showYearTabs();
+      showRatingPage();
+    };
+    tabHistory.onclick = function() {
+      tabRating.style.background = '#222';
+      tabHistory.style.background = '#e67e22';
+      pageRating.classList.add('hidden');
+      pageHistory.classList.remove('hidden');
+      hideYearTabs();
+      hideRatingPage();
+    };
+
+    const defaultAthletes = [
+      {
+        id: 1,
+        name: "Иванов Иван",
+        school: "Школа А",
+        yearlyResults: {
+          "2025": [
+            { month: 3, gold: 1, silver: 0, bronze: 0, tournament: "Кубок Києва", comment: "Упевнено виграв фінал" },
+            { month: 5, gold: 1, silver: 0, bronze: 1, tournament: "Весняний старт", comment: "Сильна серія сутичок" }
+          ],
+          "2026": [
+            { month: 2, gold: 2, silver: 1, bronze: 0, tournament: "Чемпіонат області", comment: "Найкращий результат сезону" },
+            { month: 3, gold: 1, silver: 0, bronze: 0, tournament: "Відкритий кубок", comment: "Хороша форма" }
+          ]
+        },
+        profile: {
+          photo: "images/athlete-placeholder.svg",
+          age: 12,
+          club: "Клуб WDF Central",
+          weightCategory: "32 кг"
+        }
+      },
+      {
+        id: 2,
+        name: "Петров Петр",
+        school: "Школа Б",
+        yearlyResults: {
+          "2025": [
+            { month: 4, gold: 1, silver: 1, bronze: 0, tournament: "Кубок школи", comment: "Рівні поєдинки" },
+            { month: 10, gold: 1, silver: 1, bronze: 1, tournament: "Осінній чемпіонат", comment: "Стабільно увійшов до призів" }
+          ],
+          "2026": [
+            { month: 3, gold: 1, silver: 0, bronze: 1, tournament: "Обласна подія", comment: "Є над чим працювати" }
+          ]
+        },
+        profile: {
+          photo: "images/athlete-placeholder.svg",
+          age: 13,
+          club: "Клуб WDF North",
+          weightCategory: "38 кг"
+        }
+      },
+      {
+        id: 3,
+        name: "Сидоров Сидор",
+        school: "Школа А",
+        yearlyResults: {
+          "2025": [
+            { month: 9, gold: 0, silver: 1, bronze: 1, tournament: "Юнацький фестиваль", comment: "Перший сильний сезон" }
+          ],
+          "2026": [
+            { month: 1, gold: 1, silver: 2, bronze: 1, tournament: "Міська першість", comment: "Показав зростання в техніці" },
+            { month: 3, gold: 0, silver: 1, bronze: 1, tournament: "Відкрита подія", comment: "Тримає рівень" }
+          ]
+        },
+        profile: {
+          photo: "images/athlete-placeholder.svg",
+          age: 11,
+          club: "Клуб WDF East",
+          weightCategory: "28 кг"
+        }
+      }
+    ];
+    const defaultPastTournaments = [
+      {
+        title: 'Кубок Киева',
+        date: '22.03.2026',
+        time: '10:00',
+        place: 'Киев, Дворец спорта',
+        poster: '',
+        details: 'Вікові категорії 10-15 років. Фінальні блоки після 16:00.',
+        results: [
+          'Іванов Іван — 1 місце',
+          'Петров Петро — 2 місце',
+          'Сидоров Сидір — 3 місце'
+        ]
+      },
+      {
+        title: 'Чемпіонат області',
+        date: '14.02.2026',
+        time: '09:30',
+        place: 'Житомир, Arena Hall',
+        poster: '',
+        details: 'Обласний старт серед молодших і середніх вікових груп.',
+        results: [
+          'Іванов Іван — 1 місце',
+          'Сидоров Сидір — 2 місце',
+          'Петров Петро — 3 місце'
+        ]
+      }
+    ];
+    const defaultFutureTournaments = [
+      {
+        title: 'Весняний кубок WDF',
+        date: '18.04.2026',
+        time: '11:00',
+        place: 'Киев, Sport Life Теремки',
+        poster: '',
+        details: 'Реєстрація до 15 квітня. Зважування з 09:00.'
+      },
+      {
+        title: 'Відкрита подія Центрального регіону',
+        date: '16.05.2026',
+        time: '10:30',
+        place: 'Винница, СК Нокаут',
+        poster: '',
+        details: 'Відкритий старт для клубів регіону. Попередні заявки обов\'язкові.'
+      },
+      {
+        title: 'Літній фестиваль єдиноборств',
+        date: '07.06.2026',
+        time: '12:00',
+        place: 'Львов, Bosko Arena',
+        poster: '',
+        details: 'Показові виступи та фінальний нагородний блок увечері.'
+      }
+    ];
+    let data = loadAthletes();
+    let tournaments = syncTournamentsByDate(loadTournaments());
+    let nextAthleteId = 4;
+    let selectedYear = 'all';
+    let isAdmin = false;
+    let adminSchool = "";
+    let currentProfileAthleteId = null;
+    let isProfileEditMode = false;
+    let areFiltersVisible = false;
+    let tournamentEditorState = { section: '', index: -1, mode: '' };
+    let currentFilters = {
+      ageGroup: 'all',
+      weightCategory: 'all',
+      club: 'all',
+      nameSearch: ''
+    };
+
+    // Пароли тренеров по школам
+    const COACH_PASSWORDS = {
+      "Адмін": "123456789",
+      "Школа Центр": "123",
+      
+    };
+    const SCHOOL_OPTIONS = Object.keys(COACH_PASSWORDS).filter(name => name !== 'Адмін');
+
+    nextAthleteId = getNextAthleteId();
+    populateSchoolSelects();
+    bindFilterControls();
+
+    function populateSchoolSelects() {
+      const loginSelect = document.getElementById('schoolSelect');
+      loginSelect.innerHTML = '<option value="">-- Оберіть --</option>';
+      loginSelect.insertAdjacentHTML('beforeend', '<option value="Адмін">Адмін</option>');
+      SCHOOL_OPTIONS.forEach(school => {
+        loginSelect.insertAdjacentHTML('beforeend', `<option value="${school}">${school}</option>`);
+      });
+
+      fillSchoolSelect(document.getElementById('editProfileSchool'));
+    }
+
+    function fillSchoolSelect(selectElement, selectedValue = '') {
+      if (!selectElement) return;
+      selectElement.innerHTML = SCHOOL_OPTIONS.map(school =>
+        `<option value="${school}"${school === selectedValue ? ' selected' : ''}>${school}</option>`
+      ).join('');
+    }
+
+    function renderSchoolSelect(selectedValue, onChangeCode) {
+      const options = SCHOOL_OPTIONS.map(school =>
+        `<option value="${school}"${school === selectedValue ? ' selected' : ''}>${school}</option>`
+      ).join('');
+      return `<select onchange="${onChangeCode}">${options}</select>`;
+    }
+
+    function loadAthletes() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        return defaultAthletes.map(normalizeAthlete);
+      }
+
+      try {
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) {
+          return defaultAthletes.map(normalizeAthlete);
+        }
+        return parsed.map(normalizeAthlete);
+      } catch (error) {
+        return defaultAthletes.map(normalizeAthlete);
+      }
+    }
+
+    function loadTournaments() {
+      const saved = localStorage.getItem(TOURNAMENTS_STORAGE_KEY);
+      if (!saved) {
+        return {
+          past: defaultPastTournaments.map(normalizePastTournament),
+          future: defaultFutureTournaments.map(normalizeFutureTournament)
+        };
+      }
+
+      try {
+        const parsed = JSON.parse(saved);
+        return {
+          past: Array.isArray(parsed?.past) ? parsed.past.map(normalizePastTournament) : defaultPastTournaments.map(normalizePastTournament),
+          future: Array.isArray(parsed?.future) ? parsed.future.map(normalizeFutureTournament) : defaultFutureTournaments.map(normalizeFutureTournament)
+        };
+      } catch (error) {
+        return {
+          past: defaultPastTournaments.map(normalizePastTournament),
+          future: defaultFutureTournaments.map(normalizeFutureTournament)
+        };
+      }
+    }
+
+    function normalizeTournamentBase(tournament) {
+      return {
+        title: tournament?.title || 'Нова подія',
+        date: tournament?.date || '',
+        time: tournament?.time || '',
+        place: tournament?.place || '',
+        poster: tournament?.poster || '',
+        details: tournament?.details || ''
+      };
+    }
+
+    function normalizePastTournament(tournament) {
+      const normalized = normalizeTournamentBase(tournament);
+      normalized.results = Array.isArray(tournament?.results)
+        ? tournament.results.map(result => String(result || '').trim()).filter(Boolean)
+        : [];
+      return normalized;
+    }
+
+    function normalizeFutureTournament(tournament) {
+      return normalizeTournamentBase(tournament);
+    }
+
+    function parseTournamentDate(dateString) {
+      const match = String(dateString || '').trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+      if (!match) return null;
+      const [, day, month, year] = match;
+      const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+      return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+    }
+
+    function isTournamentPast(dateString) {
+      const parsedDate = parseTournamentDate(dateString);
+      if (!parsedDate) return false;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return parsedDate < today;
+    }
+
+    function syncTournamentsByDate(sourceTournaments) {
+      const normalized = {
+        past: Array.isArray(sourceTournaments?.past) ? sourceTournaments.past.map(normalizePastTournament) : [],
+        future: Array.isArray(sourceTournaments?.future) ? sourceTournaments.future.map(normalizeFutureTournament) : []
+      };
+      const movedToPast = [];
+
+      normalized.future = normalized.future.filter(tournament => {
+        if (!isTournamentPast(tournament.date)) {
+          return true;
+        }
+        movedToPast.push(normalizePastTournament({ ...tournament, results: tournament.results || [] }));
+        return false;
+      });
+
+      if (movedToPast.length) {
+        normalized.past = movedToPast.concat(normalized.past);
+      }
+
+      return normalized;
+    }
+
+    function saveTournaments() {
+      localStorage.setItem(TOURNAMENTS_STORAGE_KEY, JSON.stringify(tournaments));
+    }
+
+    function canManageTournaments() {
+      return isAdmin && adminSchool === 'Адмін';
+    }
+
+    function normalizeAthlete(athlete, index) {
+      const safeId = athlete.id ?? index + 1;
+      const yearlyResults = normalizeYearlyResults(athlete);
+
+      return {
+        id: safeId,
+        name: athlete.name || 'Новий учасник',
+        school: athlete.school || '',
+        yearlyResults,
+        profile: {
+          photo: athlete.profile?.photo || 'images/athlete-placeholder.svg',
+          age: athlete.profile?.age ?? '—',
+          club: athlete.profile?.club || athlete.school || '—',
+          weightCategory: athlete.profile?.weightCategory || '—'
+        }
+      };
+    }
+
+    function normalizeYearlyResults(athlete) {
+      const source = athlete.yearlyResults && typeof athlete.yearlyResults === 'object'
+        ? athlete.yearlyResults
+        : athlete.year
+          ? { [String(athlete.year)]: [{ month: getCurrentMonth(), gold: athlete.gold || 0, silver: athlete.silver || 0, bronze: athlete.bronze || 0, tournament: '', comment: '' }] }
+          : {};
+
+      const normalized = {};
+      Object.entries(source).forEach(([yearKey, results]) => {
+        const year = String(yearKey);
+        const entries = Array.isArray(results) ? results : [results];
+        normalized[year] = entries.map(entry => ({
+          month: normalizeMonth(entry?.month),
+          gold: Math.max(0, Number(entry?.gold) || 0),
+          silver: Math.max(0, Number(entry?.silver) || 0),
+          bronze: Math.max(0, Number(entry?.bronze) || 0),
+          tournament: entry?.tournament || entry?.title || '',
+          comment: entry?.comment || ''
+        })).filter(entry => entry.gold || entry.silver || entry.bronze || entry.tournament || entry.comment);
+      });
+
+      const recentResults = Array.isArray(athlete.profile?.recentResults) ? athlete.profile.recentResults : [];
+      recentResults.forEach(result => {
+        const date = typeof result === 'string' ? '' : result?.date || '';
+        const title = typeof result === 'string' ? result : result?.title || '';
+        const comment = typeof result === 'string' ? '' : result?.comment || '';
+        const year = date.match(/(20\d{2})/)?.[1] || Object.keys(normalized).sort((left, right) => right.localeCompare(left, 'ru', { numeric: true }))[0] || getActiveYear();
+        const month = normalizeMonth(date.match(/(?:^|\.)(\d{2})(?:\.|$)/)?.[1] || date.match(/^(\d{1,2})[./-]/)?.[1]);
+        if (!title && !comment) return;
+        normalized[year] = normalized[year] || [];
+        normalized[year].push({ month, gold: 0, silver: 0, bronze: 0, tournament: title, comment: comment || date });
+      });
+
+      return normalized;
+    }
+
+    function getCurrentMonth() {
+      return new Date().getMonth() + 1;
+    }
+
+    function normalizeMonth(value) {
+      const numericValue = Number(value) || 1;
+      return Math.min(12, Math.max(1, numericValue));
+    }
+
+    function formatPeriodKey(year, month) {
+      return `${String(year)}-${String(normalizeMonth(month)).padStart(2, '0')}`;
+    }
+
+    function formatPeriodLabel(year, month) {
+      return `${String(normalizeMonth(month)).padStart(2, '0')}.${year}`;
+    }
+
+    function getYearEntries(athlete, yearKey) {
+      const entries = athlete.yearlyResults?.[String(yearKey)];
+      if (!Array.isArray(entries)) return [];
+      return entries.map(entry => ({
+        month: normalizeMonth(entry?.month),
+        gold: Math.max(0, Number(entry?.gold) || 0),
+        silver: Math.max(0, Number(entry?.silver) || 0),
+        bronze: Math.max(0, Number(entry?.bronze) || 0),
+        tournament: entry?.tournament || '',
+        comment: entry?.comment || ''
+      }));
+    }
+
+    function getNextAthleteId() {
+      return data.reduce((maxId, athlete) => Math.max(maxId, athlete.id || 0), 0) + 1;
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function getActiveYear() {
+      return selectedYear !== 'all' ? String(selectedYear) : String(new Date().getFullYear());
+    }
+
+    function getResultsForSelectedYear(athlete, yearKey = selectedYear) {
+      const yearlyResults = athlete.yearlyResults || {};
+      if (yearKey !== 'all') {
+        return getYearEntries(athlete, yearKey).reduce((accumulator, result) => {
+          accumulator.gold += Number(result.gold) || 0;
+          accumulator.silver += Number(result.silver) || 0;
+          accumulator.bronze += Number(result.bronze) || 0;
+          return accumulator;
+        }, { gold: 0, silver: 0, bronze: 0 });
+      }
+
+      return Object.keys(yearlyResults).reduce((accumulator, year) => {
+        getYearEntries(athlete, year).forEach(result => {
+          accumulator.gold += Number(result.gold) || 0;
+          accumulator.silver += Number(result.silver) || 0;
+          accumulator.bronze += Number(result.bronze) || 0;
+        });
+        return accumulator;
+      }, { gold: 0, silver: 0, bronze: 0 });
+    }
+
+    function hasYearResults(athlete, yearKey) {
+      return getYearEntries(athlete, yearKey).some(result =>
+        (result.gold || 0) + (result.silver || 0) + (result.bronze || 0) > 0
+      );
+    }
+
+    function setYearMedalTotal(athlete, yearKey, field, totalValue) {
+      athlete.yearlyResults = athlete.yearlyResults || {};
+      const entries = getYearEntries(athlete, yearKey);
+      if (!entries.length) {
+        entries.push({ month: getCurrentMonth(), gold: 0, silver: 0, bronze: 0, tournament: '', comment: '' });
+      }
+      const otherEntriesSum = entries.slice(1).reduce((sum, entry) => sum + (Number(entry[field]) || 0), 0);
+      entries[0][field] = Math.max(0, totalValue - otherEntriesSum);
+      athlete.yearlyResults[String(yearKey)] = entries;
+    }
+
+    function sortData() {
+      let filtered = data;
+      if (selectedYear !== 'all') {
+        filtered = data.filter(athlete => hasYearResults(athlete, selectedYear));
+      }
+      filtered = applyTableFilters(filtered);
+      const computed = filtered.map(athlete => {
+        const results = getResultsForSelectedYear(athlete, selectedYear);
+        return {
+          athlete,
+          results,
+          rating: results.gold * 10 + results.silver * 7 + results.bronze * 5
+        };
+      });
+      computed.sort((a, b) => {
+        if (b.rating !== a.rating) return b.rating - a.rating;
+        if (b.results.gold !== a.results.gold) return b.results.gold - a.results.gold;
+        if (b.results.silver !== a.results.silver) return b.results.silver - a.results.silver;
+        return b.results.bronze - a.results.bronze;
+      });
+      return computed;
+    }
+
+    function getSortedRowsForHistory(yearKey) {
+      const [year, month] = String(yearKey).split('-');
+      return data
+        .filter(athlete => hasMonthlyResults(athlete, year, month))
+        .map(athlete => {
+          const results = getResultsForMonth(athlete, year, month);
+          return {
+            athlete,
+            results,
+            rating: results.gold * 10 + results.silver * 7 + results.bronze * 5
+          };
+        })
+        .sort((a, b) => {
+          if (b.rating !== a.rating) return b.rating - a.rating;
+          if (b.results.gold !== a.results.gold) return b.results.gold - a.results.gold;
+          if (b.results.silver !== a.results.silver) return b.results.silver - a.results.silver;
+          return b.results.bronze - a.results.bronze;
+        });
+    }
+
+    function getCurrentPlaceForAthlete(athleteId, yearKey) {
+      const sortedRows = getSortedRowsForHistory(yearKey);
+      const index = sortedRows.findIndex(row => row.athlete.id === athleteId);
+      return index >= 0 ? index + 1 : null;
+    }
+
+    function getResultsForMonth(athlete, yearKey, monthValue) {
+      return getYearEntries(athlete, yearKey).reduce((accumulator, result) => {
+        if (normalizeMonth(result.month) !== normalizeMonth(monthValue)) {
+          return accumulator;
+        }
+        accumulator.gold += Number(result.gold) || 0;
+        accumulator.silver += Number(result.silver) || 0;
+        accumulator.bronze += Number(result.bronze) || 0;
+        return accumulator;
+      }, { gold: 0, silver: 0, bronze: 0 });
+    }
+
+    function hasMonthlyResults(athlete, yearKey, monthValue) {
+      const results = getResultsForMonth(athlete, yearKey, monthValue);
+      return results.gold + results.silver + results.bronze > 0;
+    }
+
+    function getAllHistoryPeriods() {
+      const periods = new Set();
+      data.forEach(athlete => {
+        Object.keys(athlete.yearlyResults || {}).forEach(year => {
+          getYearEntries(athlete, year).forEach(entry => {
+            if ((entry.gold || 0) + (entry.silver || 0) + (entry.bronze || 0) > 0) {
+              periods.add(formatPeriodKey(year, entry.month));
+            }
+          });
+        });
+      });
+      return [...periods].sort((left, right) => left.localeCompare(right, 'ru', { numeric: true }));
+    }
+
+    function getAthleteRatingHistory(athlete) {
+      return getAllHistoryPeriods()
+        .map(periodKey => {
+          const [year, month] = periodKey.split('-');
+          return {
+            label: formatPeriodLabel(year, month),
+            place: getCurrentPlaceForAthlete(athlete.id, periodKey)
+          };
+        })
+        .filter(item => item.place);
+    }
+
+    function renderProfileHistory(athlete) {
+      const history = getAthleteRatingHistory(athlete);
+      const chart = document.getElementById('profileHistoryChart');
+      const list = document.getElementById('profileHistoryList');
+      const trend = document.getElementById('profileHistoryTrend');
+      const caption = document.getElementById('profileHistoryCaption');
+
+      list.innerHTML = '';
+
+      if (!history.length) {
+        chart.innerHTML = '';
+        trend.textContent = 'Недостатньо даних';
+        trend.className = 'profile-history-trend';
+        caption.textContent = 'Історія місця з\'явиться, коли накопичаться дані за місяцями';
+        return;
+      }
+
+      const maxPlace = Math.max(...history.map(item => item.place), 1);
+      const points = history.map((item, index) => {
+        const x = history.length === 1 ? 180 : 24 + (index * (312 / (history.length - 1)));
+        const y = 20 + ((item.place - 1) * (108 / Math.max(maxPlace - 1, 1)));
+        return { ...item, x, y };
+      });
+
+      const polylinePoints = points.map(point => `${point.x},${point.y}`).join(' ');
+      chart.innerHTML = `
+        <line x1="18" y1="132" x2="342" y2="132" class="history-axis"></line>
+        <polyline points="${polylinePoints}" class="history-line"></polyline>
+        ${points.map(point => `
+          <circle cx="${point.x}" cy="${point.y}" r="5" class="history-point"></circle>
+          <text x="${point.x}" y="150" text-anchor="middle" class="history-label">${point.label}</text>
+          <text x="${point.x}" y="${point.y - 10}" text-anchor="middle" class="history-value">#${point.place}</text>
+        `).join('')}
+      `;
+
+      points.forEach(point => {
+        const item = document.createElement('li');
+        item.className = 'profile-history-item';
+        item.textContent = `${point.label}: ${point.place} місце`;
+        list.appendChild(item);
+      });
+
+      if (history.length >= 2) {
+        const diff = history[0].place - history[history.length - 1].place;
+        if (diff > 0) {
+          trend.textContent = `Рост на ${diff} поз.`;
+          trend.className = 'profile-history-trend trend-up';
+        } else if (diff < 0) {
+          trend.textContent = `Падение на ${Math.abs(diff)} поз.`;
+          trend.className = 'profile-history-trend trend-down';
+        } else {
+          trend.textContent = 'Без змін';
+          trend.className = 'profile-history-trend';
+        }
+      } else {
+        trend.textContent = '1 місяць у рейтингу';
+        trend.className = 'profile-history-trend';
+      }
+
+      caption.textContent = 'Як змінювалося місце спортсмена за місяцями';
+    }
+
+    function renderTable() {
+      populateFilterOptions();
+      const filtered = sortData();
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      filtered.forEach((entry, idx) => {
+        const row = entry.athlete;
+        const results = entry.results;
+        const canEdit = canEditAthleteProfile(row) && selectedYear !== 'all';
+        const canEditSchool = isAdmin && adminSchool === 'Адмін';
+        const tr = document.createElement('tr');
+        if (idx < 3) {
+          tr.classList.add(`top-row`, `top-row-${idx + 1}`);
+        }
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td><button type="button" class="participant-link" onclick="openAthleteProfile(${row.id})">${row.name}</button></td>
+          <td>${canEditSchool ? renderSchoolSelect(row.school, `updateRow(${row.id}, 'school', this.value)`) : row.school}</td>
+          <td>${canEdit ? `<input type="number" min="0" value="${results.gold}" onchange="updateRow(${row.id}, 'gold', this.value)">` : results.gold}</td>
+          <td>${canEdit ? `<input type="number" min="0" value="${results.silver}" onchange="updateRow(${row.id}, 'silver', this.value)">` : results.silver}</td>
+          <td>${canEdit ? `<input type="number" min="0" value="${results.bronze}" onchange="updateRow(${row.id}, 'bronze', this.value)">` : results.bronze}</td>
+          <td>${entry.rating}</td>
+          <td class="admin-col${canEdit ? '' : ' hidden'}">
+            <button class="delete-btn" onclick="deleteRow(${row.id})">Видалити</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      document.querySelectorAll('.admin-col').forEach(el => {
+        el.classList.toggle('hidden', !isAdmin);
+      });
+      document.getElementById('addRowBtn').classList.toggle('hidden', !isAdmin);
+      updateLastUpdate();
+    }
+
+    function canEditAthleteProfile(athlete) {
+      return isAdmin && (adminSchool === 'Адмін' || athlete.school === adminSchool);
+    }
+
+    function getTotalMatches(athlete) {
+      const results = getResultsForSelectedYear(athlete, 'all');
+      return (Number(results.gold) || 0) + (Number(results.silver) || 0) + (Number(results.bronze) || 0);
+    }
+
+    function getAgeGroup(age) {
+      const numericAge = Number(age);
+      if (!Number.isFinite(numericAge)) return 'unknown';
+      if (numericAge <= 12) return 'children';
+      if (numericAge <= 17) return 'juniors';
+      return 'adults';
+    }
+
+    function applyTableFilters(rows) {
+      return rows.filter(row => {
+        const ageGroup = getAgeGroup(row.profile?.age);
+        const weightCategory = row.profile?.weightCategory || '—';
+        const club = row.profile?.club || row.school || '—';
+        const normalizedName = (row.name || '').toLowerCase();
+        const normalizedSearch = currentFilters.nameSearch.trim().toLowerCase();
+
+        if (currentFilters.ageGroup !== 'all' && ageGroup !== currentFilters.ageGroup) {
+          return false;
+        }
+        if (currentFilters.weightCategory !== 'all' && weightCategory !== currentFilters.weightCategory) {
+          return false;
+        }
+        if (currentFilters.club !== 'all' && club !== currentFilters.club) {
+          return false;
+        }
+        if (normalizedSearch && !normalizedName.includes(normalizedSearch)) {
+          return false;
+        }
+        return true;
+      });
+    }
+
+    function populateFilterOptions() {
+      fillDynamicSelect(document.getElementById('filterWeightCategory'), getUniqueFilterValues('weightCategory'), currentFilters.weightCategory);
+      fillDynamicSelect(document.getElementById('filterClub'), getUniqueFilterValues('club'), currentFilters.club);
+    }
+
+    function getUniqueFilterValues(type) {
+      const values = data.map(row => {
+        if (type === 'weightCategory') return row.profile?.weightCategory || '—';
+        if (type === 'club') return row.profile?.club || row.school || '—';
+        return '';
+      }).filter(Boolean);
+      return [...new Set(values)].sort((left, right) => left.localeCompare(right, 'ru'));
+    }
+
+    function fillDynamicSelect(selectElement, values, selectedValue) {
+      if (!selectElement) return;
+      const options = ['<option value="all">Усі</option>']
+        .concat(values.map(value => `<option value="${value}"${value === selectedValue ? ' selected' : ''}>${value}</option>`));
+      selectElement.innerHTML = options.join('');
+    }
+
+    function bindFilterControls() {
+      document.getElementById('filterAgeGroup').addEventListener('change', event => {
+        currentFilters.ageGroup = event.target.value;
+        renderTable();
+      });
+      document.getElementById('filterWeightCategory').addEventListener('change', event => {
+        currentFilters.weightCategory = event.target.value;
+        renderTable();
+      });
+      document.getElementById('filterClub').addEventListener('change', event => {
+        currentFilters.club = event.target.value;
+        renderTable();
+      });
+      document.getElementById('filterNameSearch').addEventListener('input', event => {
+        currentFilters.nameSearch = event.target.value;
+        renderTable();
+      });
+    }
+
+    function resetFilters() {
+      currentFilters = {
+        ageGroup: 'all',
+        weightCategory: 'all',
+        club: 'all',
+        nameSearch: ''
+      };
+      document.getElementById('filterAgeGroup').value = 'all';
+      document.getElementById('filterWeightCategory').value = 'all';
+      document.getElementById('filterClub').value = 'all';
+      document.getElementById('filterNameSearch').value = '';
+      renderTable();
+    }
+
+    function toggleFilters() {
+      areFiltersVisible = !areFiltersVisible;
+      const panel = document.getElementById('filtersPanel');
+      const button = document.getElementById('filtersToggleBtn');
+      panel.classList.toggle('hidden', !areFiltersVisible);
+      button.classList.toggle('filters-toggle-btn-active', areFiltersVisible);
+      button.textContent = areFiltersVisible ? 'Сховати фільтри' : 'Фільтри';
+    }
+
+    function updateLastUpdate() {
+      const el = document.getElementById('lastUpdate');
+      if (!el) return;
+      const now = new Date();
+      const d = now.toLocaleDateString();
+      el.textContent = `Останнє оновлення: ${d}`;
+    }
+
+    function updateRow(rowId, field, value) {
+      const athlete = data.find(item => item.id === rowId);
+      if (!athlete) return;
+      if (field === 'gold' || field === 'silver' || field === 'bronze') {
+        value = Math.max(0, parseInt(value) || 0);
+        const activeYear = getActiveYear();
+        setYearMedalTotal(athlete, activeYear, field, value);
+      } else {
+        athlete[field] = value;
+      }
+      saveData();
+      renderTable();
+      updateLastUpdate();
+    }
+
+    function deleteRow(rowId) {
+      data = data.filter(item => item.id !== rowId);
+      saveData();
+      renderTable();
+      updateLastUpdate();
+    }
+
+    function addRow() {
+      if (!isAdmin) return;
+      let year = 2026;
+      if (selectedYear !== 'all') year = Number(selectedYear);
+      data.push({
+        id: nextAthleteId++,
+        name: "Новий учасник",
+        school: adminSchool === "Адмін" ? "" : adminSchool,
+        yearlyResults: {
+          [String(year)]: [{ month: getCurrentMonth(), gold: 0, silver: 0, bronze: 0, tournament: '', comment: '' }]
+        },
+        profile: {
+          photo: "images/athlete-placeholder.svg",
+          age: "—",
+          club: adminSchool === "Адмін" ? "—" : adminSchool,
+          weightCategory: '—'
+        }
+      });
+      saveData();
+      renderTable();
+      updateLastUpdate();
+    }
+
+    function openAthleteProfile(rowId) {
+      const athlete = data.find(item => item.id === rowId);
+      if (!athlete) return;
+      currentProfileAthleteId = rowId;
+      isProfileEditMode = false;
+      renderAthleteProfile(athlete);
+
+      pageRating.classList.add('hidden');
+      pageHistory.classList.add('hidden');
+      pageProfile.classList.remove('hidden');
+      hideYearTabs();
+      hideRatingPage();
+    }
+
+    function renderAthleteProfile(athlete) {
+      const profile = athlete.profile || {};
+      document.getElementById('profilePhoto').src = profile.photo || 'images/athlete-placeholder.svg';
+      document.getElementById('profileName').textContent = athlete.name;
+      document.getElementById('profileAge').textContent = profile.age ?? '—';
+      document.getElementById('profileClub').textContent = profile.club || athlete.school || '—';
+      document.getElementById('profileWeightCategory').textContent = profile.weightCategory || '—';
+      document.getElementById('profileSchool').textContent = athlete.school || '—';
+      document.getElementById('profileFights').textContent = getTotalMatches(athlete);
+
+      const resultsList = document.getElementById('profileResults');
+      resultsList.innerHTML = '';
+      const years = Object.keys(athlete.yearlyResults || {}).sort((left, right) => right.localeCompare(left, 'ru', { numeric: true }));
+      if (!years.length) {
+        const emptyItem = document.createElement('li');
+        emptyItem.textContent = 'Поки немає результатів';
+        resultsList.appendChild(emptyItem);
+      }
+      years.forEach(year => {
+        const entries = getYearEntries(athlete, year);
+        if (!entries.length) return;
+        const totals = getResultsForSelectedYear(athlete, year);
+        const yearItem = document.createElement('li');
+        yearItem.className = 'profile-result-year-item';
+
+        const heading = document.createElement('div');
+        heading.className = 'profile-result-year-title';
+        heading.textContent = `${year} — 🥇 ${totals.gold}  🥈 ${totals.silver}  🥉 ${totals.bronze}`;
+        yearItem.appendChild(heading);
+
+        const nestedList = document.createElement('ul');
+        nestedList.className = 'profile-result-year-list';
+        entries.forEach(entry => {
+          if (!entry.gold && !entry.silver && !entry.bronze && !entry.tournament && !entry.comment) return;
+          const nestedItem = document.createElement('li');
+          const medalParts = [];
+          if (entry.gold) medalParts.push(`🥇 ${entry.gold}`);
+          if (entry.silver) medalParts.push(`🥈 ${entry.silver}`);
+          if (entry.bronze) medalParts.push(`🥉 ${entry.bronze}`);
+          const textParts = [`${String(normalizeMonth(entry.month)).padStart(2, '0')}.${year}`, entry.tournament || 'Без назви події'];
+          if (medalParts.length) textParts.push(`(${medalParts.join(', ')})`);
+          if (entry.comment) textParts.push(`— ${entry.comment}`);
+          nestedItem.textContent = textParts.join(' ');
+          nestedList.appendChild(nestedItem);
+        });
+        yearItem.appendChild(nestedList);
+        resultsList.appendChild(yearItem);
+      });
+      renderProfileHistory(athlete);
+
+      const canEditProfile = canEditAthleteProfile(athlete);
+      document.getElementById('profileActions').classList.toggle('hidden', !canEditProfile);
+      document.getElementById('editProfileBtn').classList.toggle('hidden', !canEditProfile || isProfileEditMode);
+      document.getElementById('saveProfileBtn').classList.toggle('hidden', !canEditProfile || !isProfileEditMode);
+      document.getElementById('cancelProfileBtn').classList.toggle('hidden', !canEditProfile || !isProfileEditMode);
+      document.getElementById('profileEditForm').classList.toggle('hidden', !canEditProfile || !isProfileEditMode);
+      document.querySelector('.profile-stats-grid').classList.toggle('hidden', canEditProfile && isProfileEditMode);
+      document.querySelector('.profile-results-block').classList.toggle('hidden', canEditProfile && isProfileEditMode);
+
+      document.getElementById('editProfileName').value = athlete.name || '';
+      document.getElementById('editProfilePhoto').value = profile.photo || 'images/athlete-placeholder.svg';
+      document.getElementById('editProfileAge').value = typeof profile.age === 'number' ? profile.age : '';
+      document.getElementById('editProfileClub').value = profile.club || '';
+      document.getElementById('editProfileWeightCategory').value = profile.weightCategory || '';
+      fillSchoolSelect(document.getElementById('editProfileSchool'), athlete.school || SCHOOL_OPTIONS[0] || '');
+      document.getElementById('editProfilePhotoFile').value = '';
+      document.getElementById('editProfileSchoolWrap').classList.toggle('hidden', adminSchool !== 'Адмін');
+      renderYearlyResultsInputs(athlete.yearlyResults || {});
+    }
+
+    function renderYearlyResultsInputs(yearlyResults) {
+      const editor = document.getElementById('profileYearlyResultsEditor');
+      editor.innerHTML = '';
+      const header = document.createElement('div');
+      header.className = 'profile-year-row profile-year-row-header';
+      header.innerHTML = `
+        <div class="profile-year-label">Рік</div>
+        <div class="profile-year-label">Місяць</div>
+        <div class="profile-year-label profile-year-label-medal">🥇</div>
+        <div class="profile-year-label profile-year-label-medal">🥈</div>
+        <div class="profile-year-label profile-year-label-medal">🥉</div>
+        <div class="profile-year-label">Назва події</div>
+        <div class="profile-year-label">Коментар</div>
+        <div class="profile-year-label">Дія</div>
+      `;
+      editor.appendChild(header);
+      const years = Object.keys(yearlyResults).sort((left, right) => left.localeCompare(right, 'uk', { numeric: true }));
+      const rows = years.flatMap(year => {
+        const entries = getYearEntries({ yearlyResults }, year);
+        return entries.length ? entries.map(entry => ({ year, entry })) : [{ year, entry: { month: getCurrentMonth(), gold: 0, silver: 0, bronze: 0, tournament: '', comment: '' } }];
+      });
+      const normalizedRows = rows.length ? rows : [{ year: getActiveYear(), entry: { month: getCurrentMonth(), gold: 0, silver: 0, bronze: 0, tournament: '', comment: '' } }];
+
+      normalizedRows.forEach((rowData, index) => {
+        const row = document.createElement('div');
+        row.className = 'profile-year-row';
+        row.innerHTML = `
+          <input type="number" class="profile-year-input profile-year-value" placeholder="Рік" value="${rowData.year}">
+          <input type="number" class="profile-year-input profile-year-month" placeholder="Мес" min="1" max="12" value="${normalizeMonth(rowData.entry.month)}">
+          <input type="number" class="profile-year-input profile-year-medal" placeholder="🥇" min="0" value="${rowData.entry.gold}">
+          <input type="number" class="profile-year-input profile-year-medal" placeholder="🥈" min="0" value="${rowData.entry.silver}">
+          <input type="number" class="profile-year-input profile-year-medal" placeholder="🥉" min="0" value="${rowData.entry.bronze}">
+          <input type="text" class="profile-year-input profile-year-tournament" placeholder="Назва події" value="${rowData.entry.tournament || ''}">
+          <input type="text" class="profile-year-input profile-year-comment" placeholder="Коментар" value="${rowData.entry.comment || ''}">
+          <button type="button" class="delete-btn profile-result-remove" onclick="removeYearlyResultRow(${index})">Видалити</button>
+        `;
+        editor.appendChild(row);
+      });
+    }
+
+    function addYearlyResultRow() {
+      const yearlyResults = collectYearlyResultsFromForm();
+      const activeYear = getActiveYear();
+      yearlyResults[activeYear] = yearlyResults[activeYear] || [];
+      yearlyResults[activeYear].push({ month: getCurrentMonth(), gold: 0, silver: 0, bronze: 0, tournament: '', comment: '' });
+      renderYearlyResultsInputs(yearlyResults);
+    }
+
+    function removeYearlyResultRow(index) {
+      const rows = collectFlatYearlyResultsFromForm();
+      rows.splice(index, 1);
+      const yearlyResults = groupYearlyResultsRows(rows);
+      renderYearlyResultsInputs(yearlyResults);
+    }
+
+    function collectYearlyResultsFromForm() {
+      return groupYearlyResultsRows(collectFlatYearlyResultsFromForm());
+    }
+
+    function collectFlatYearlyResultsFromForm() {
+      return Array.from(document.querySelectorAll('#profileYearlyResultsEditor .profile-year-row')).map(row => {
+        const inputs = row.querySelectorAll('input');
+        return {
+          year: String(inputs[0]?.value.trim() || ''),
+          month: normalizeMonth(inputs[1]?.value),
+          gold: Math.max(0, parseInt(inputs[2]?.value, 10) || 0),
+          silver: Math.max(0, parseInt(inputs[3]?.value, 10) || 0),
+          bronze: Math.max(0, parseInt(inputs[4]?.value, 10) || 0),
+          tournament: inputs[5]?.value.trim() || '',
+          comment: inputs[6]?.value.trim() || ''
+        };
+      }).filter(row => row.year || row.gold || row.silver || row.bronze || row.tournament || row.comment);
+    }
+
+    function groupYearlyResultsRows(rows) {
+      const yearlyResults = {};
+      rows.forEach(row => {
+        const year = String(row.year || '').trim();
+        if (!year) return;
+        yearlyResults[year] = yearlyResults[year] || [];
+        yearlyResults[year].push({
+          month: normalizeMonth(row.month),
+          gold: row.gold,
+          silver: row.silver,
+          bronze: row.bronze,
+          tournament: row.tournament,
+          comment: row.comment
+        });
+      });
+      return yearlyResults;
+    }
+
+    function uploadProfilePhoto(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = typeof reader.result === 'string' ? reader.result : '';
+        document.getElementById('editProfilePhoto').value = result;
+        document.getElementById('profilePhoto').src = result || 'images/athlete-placeholder.svg';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function startProfileEdit() {
+      const athlete = data.find(item => item.id === currentProfileAthleteId);
+      if (!athlete || !canEditAthleteProfile(athlete)) return;
+      isProfileEditMode = true;
+      renderAthleteProfile(athlete);
+    }
+
+    function cancelProfileEdit() {
+      const athlete = data.find(item => item.id === currentProfileAthleteId);
+      if (!athlete) return;
+      isProfileEditMode = false;
+      renderAthleteProfile(athlete);
+    }
+
+    function saveAthleteProfile() {
+      const athlete = data.find(item => item.id === currentProfileAthleteId);
+      if (!athlete || !canEditAthleteProfile(athlete)) return;
+
+      athlete.name = document.getElementById('editProfileName').value.trim() || athlete.name;
+      if (adminSchool === 'Адмін') {
+        athlete.school = document.getElementById('editProfileSchool').value.trim() || athlete.school;
+      }
+
+      athlete.profile = athlete.profile || {};
+      athlete.profile.photo = document.getElementById('editProfilePhoto').value.trim() || 'images/athlete-placeholder.svg';
+
+      const ageValue = document.getElementById('editProfileAge').value;
+      athlete.profile.age = ageValue === '' ? '—' : Math.max(0, parseInt(ageValue, 10) || 0);
+      athlete.profile.club = document.getElementById('editProfileClub').value.trim() || athlete.school || '—';
+      athlete.profile.weightCategory = document.getElementById('editProfileWeightCategory').value.trim() || '—';
+      athlete.yearlyResults = collectYearlyResultsFromForm();
+
+      if (!Object.keys(athlete.yearlyResults).length) {
+        const activeYear = getActiveYear();
+        athlete.yearlyResults = {
+          [activeYear]: [{ month: getCurrentMonth(), gold: 0, silver: 0, bronze: 0, tournament: '', comment: '' }]
+        };
+      }
+
+      isProfileEditMode = false;
+      saveData();
+      renderAthleteProfile(athlete);
+      renderTable();
+      updateLastUpdate();
+    }
+
+    function closeAthleteProfile() {
+      pageProfile.classList.add('hidden');
+      pageRating.classList.remove('hidden');
+      currentProfileAthleteId = null;
+      isProfileEditMode = false;
+      showYearTabs();
+      showRatingPage();
+    }
+
+    // Перемикання року
+    document.getElementById('year-all').onclick = function() {
+      selectedYear = 'all';
+      setYearTabActive('all');
+      renderTable();
+    };
+    document.getElementById('year-2026').onclick = function() {
+      selectedYear = '2026';
+      setYearTabActive('2026');
+      renderTable();
+    };
+    document.getElementById('year-2025').onclick = function() {
+      selectedYear = '2025';
+      setYearTabActive('2025');
+      renderTable();
+    };
+
+    function setYearTabActive(year) {
+      document.getElementById('year-all').style.background = year === 'all' ? '#e67e22' : '#222';
+      document.getElementById('year-2026').style.background = year === '2026' ? '#e67e22' : '#222';
+      document.getElementById('year-2025').style.background = year === '2025' ? '#e67e22' : '#222';
+    }
+
+    function login() {
+      const school = document.getElementById('schoolSelect').value;
+      const pass = document.getElementById('coachPass').value;
+      if (!school || !COACH_PASSWORDS[school]) {
+        alert('Оберіть школу!');
+        return;
+      }
+      if (pass === COACH_PASSWORDS[school]) {
+        isAdmin = true;
+        adminSchool = school;
+        document.getElementById('loginPage').classList.add('hidden');
+        document.getElementById('logoutBtn').classList.remove('hidden');
+        renderTable();
+        renderTournamentsPage();
+        if (currentProfileAthleteId !== null) {
+          const athlete = data.find(item => item.id === currentProfileAthleteId);
+          if (athlete) renderAthleteProfile(athlete);
+        }
+        updateLastUpdate();
+      } else {
+        alert('Неправильний пароль тренера!');
+      }
+    }
+
+    function logout() {
+      isAdmin = false;
+      adminSchool = "";
+      tournamentEditorState = { section: '', index: -1, mode: '' };
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('logoutBtn').classList.add('hidden');
+      renderTable();
+      renderTournamentsPage();
+      if (currentProfileAthleteId !== null) {
+        const athlete = data.find(item => item.id === currentProfileAthleteId);
+        if (athlete) renderAthleteProfile(athlete);
+      }
+      updateLastUpdate();
+    }
+
+    function showLoginPage() {
+      document.getElementById('loginPage').classList.remove('hidden');
+    }
+
+    function startTournamentCreate(section) {
+      if (!canManageTournaments()) return;
+      tournamentEditorState = { section, index: -1, mode: 'create' };
+      renderTournamentsPage();
+    }
+
+    function startTournamentEdit(section, index) {
+      if (!canManageTournaments()) return;
+      tournamentEditorState = { section, index, mode: 'edit' };
+      renderTournamentsPage();
+    }
+
+    function cancelTournamentEdit() {
+      tournamentEditorState = { section: '', index: -1, mode: '' };
+      renderTournamentsPage();
+    }
+
+    function deleteTournament(section, index) {
+      if (!canManageTournaments()) return;
+      tournaments[section].splice(index, 1);
+      saveTournaments();
+      tournamentEditorState = { section: '', index: -1, mode: '' };
+      renderTournamentsPage();
+    }
+
+    function uploadTournamentPoster(event, formId) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = typeof reader.result === 'string' ? reader.result : '';
+        const input = document.getElementById(`tournament-poster-${formId}`);
+        if (input) input.value = result;
+
+        const formCard = event.target.closest('.tournament-card-editor');
+        if (!formCard) return;
+        let preview = formCard.querySelector('.tournament-poster-preview');
+        if (!preview) {
+          preview = document.createElement('img');
+          preview.className = 'tournament-poster tournament-poster-preview';
+          const detailsField = formCard.querySelector('.tournament-form-field textarea')?.closest('.tournament-form-field');
+          if (detailsField) {
+            detailsField.insertAdjacentElement('beforebegin', preview);
+          } else {
+            formCard.querySelector('.tournament-form-grid')?.appendChild(preview);
+          }
+        }
+        preview.src = result;
+        preview.alt = 'Афіша події';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderTournamentForm(section, tournament = {}, index = -1) {
+      const isPast = section === 'past';
+      const formId = index >= 0 ? `${section}-${index}` : `${section}-new`;
+      const title = tournament.title || '';
+      const date = tournament.date || '';
+      const time = tournament.time || '';
+      const place = tournament.place || '';
+      const poster = tournament.poster || '';
+      const details = tournament.details || '';
+      const resultsText = Array.isArray(tournament.results) ? tournament.results.join('\n') : '';
+
+      return `
+        <article class="tournament-card tournament-card-editor">
+          <div class="tournament-form-grid">
+            <label class="tournament-form-field">
+              <span>Назва події</span>
+              <input id="tournament-title-${formId}" type="text" value="${title}">
+            </label>
+            <label class="tournament-form-field">
+              <span>Дата</span>
+              <input id="tournament-date-${formId}" type="text" placeholder="18.04.2026" value="${date}">
+            </label>
+            <label class="tournament-form-field">
+              <span>Час</span>
+              <input id="tournament-time-${formId}" type="text" placeholder="11:00" value="${time}">
+            </label>
+            <label class="tournament-form-field tournament-form-field-full">
+              <span>Місце</span>
+              <input id="tournament-place-${formId}" type="text" value="${place}">
+            </label>
+            <label class="tournament-form-field tournament-form-field-full">
+              <span>Афиша: путь или URL</span>
+              <input id="tournament-poster-${formId}" type="text" placeholder="images/tournament-poster.jpg" value="${poster}">
+            </label>
+            <label class="tournament-form-field tournament-form-field-full">
+              <span>Загрузить афишу</span>
+              <input id="tournament-poster-file-${formId}" type="file" accept="image/*" onchange="uploadTournamentPoster(event, '${formId}')">
+            </label>
+            ${poster ? `<img src="${poster}" alt="Афиша ${title}" class="tournament-poster tournament-poster-preview">` : ''}
+            <label class="tournament-form-field tournament-form-field-full">
+              <span>Опис</span>
+              <textarea id="tournament-details-${formId}" rows="4">${details}</textarea>
+            </label>
+            ${isPast ? `
+              <label class="tournament-form-field tournament-form-field-full">
+                <span>Командні результати, кожен рядок окремо</span>
+                <textarea id="tournament-results-${formId}" rows="5">${resultsText}</textarea>
+              </label>
+            ` : ''}
+          </div>
+          <div class="tournament-card-actions">
+            <button type="button" class="save-btn" onclick="saveTournament('${section}', ${index}, '${formId}')">Зберегти</button>
+            <button type="button" class="delete-btn" onclick="cancelTournamentEdit()">Скасувати</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function saveTournament(section, index, formId) {
+      if (!canManageTournaments()) return;
+
+      const tournament = {
+        title: document.getElementById(`tournament-title-${formId}`)?.value.trim() || 'Нова подія',
+        date: document.getElementById(`tournament-date-${formId}`)?.value.trim() || '',
+        time: document.getElementById(`tournament-time-${formId}`)?.value.trim() || '',
+        place: document.getElementById(`tournament-place-${formId}`)?.value.trim() || '',
+        poster: document.getElementById(`tournament-poster-${formId}`)?.value.trim() || '',
+        details: document.getElementById(`tournament-details-${formId}`)?.value.trim() || ''
+      };
+
+      if (section === 'past') {
+        const rawResults = document.getElementById(`tournament-results-${formId}`)?.value || '';
+        tournament.results = rawResults.split('\n').map(result => result.trim()).filter(Boolean);
+      }
+
+      if (index >= 0) {
+        tournaments[section][index] = section === 'past' ? normalizePastTournament(tournament) : normalizeFutureTournament(tournament);
+      } else {
+        tournaments[section].unshift(section === 'past' ? normalizePastTournament(tournament) : normalizeFutureTournament(tournament));
+      }
+
+      saveTournaments();
+      tournamentEditorState = { section: '', index: -1, mode: '' };
+      renderTournamentsPage();
+    }
+
+    function renderTournamentsPage() {
+      const pastList = document.getElementById('pastTournamentsList');
+      const futureList = document.getElementById('futureTournamentsList');
+      if (!pastList || !futureList) return;
+
+      const syncedTournaments = syncTournamentsByDate(tournaments);
+      const tournamentsChanged = JSON.stringify(syncedTournaments) !== JSON.stringify(tournaments);
+      tournaments = syncedTournaments;
+      if (tournamentsChanged) {
+        saveTournaments();
+      }
+
+      const canManage = canManageTournaments();
+      document.getElementById('addPastTournamentBtn')?.classList.toggle('hidden', !canManage);
+      document.getElementById('addFutureTournamentBtn')?.classList.toggle('hidden', !canManage);
+
+      pastList.innerHTML = [
+        tournamentEditorState.section === 'past' && tournamentEditorState.mode === 'create' ? renderTournamentForm('past') : '',
+        ...tournaments.past.map((tournament, index) => {
+          if (tournamentEditorState.section === 'past' && tournamentEditorState.index === index) {
+            return renderTournamentForm('past', tournament, index);
+          }
+
+          return `
+            <article class="tournament-card">
+              ${tournament.poster ? `<img src="${tournament.poster}" alt="Афиша ${tournament.title}" class="tournament-poster">` : ''}
+              <div class="tournament-card-meta">${tournament.date}${tournament.time ? ` · ${tournament.time}` : ''} · ${tournament.place}</div>
+              <h3 class="tournament-card-title">${tournament.title}</h3>
+              ${tournament.details ? `<div class="tournament-card-details">${tournament.details}</div>` : ''}
+              <ul class="tournament-results-list">
+                ${(tournament.results || []).map(result => `<li>${result}</li>`).join('')}
+              </ul>
+              ${canManage ? `
+                <div class="tournament-card-actions">
+                  <button type="button" class="edit-btn" onclick="startTournamentEdit('past', ${index})">Редагувати</button>
+                  <button type="button" class="delete-btn" onclick="deleteTournament('past', ${index})">Видалити</button>
+                </div>
+              ` : ''}
+            </article>
+          `;
+        })
+      ].join('');
+
+      futureList.innerHTML = [
+        tournamentEditorState.section === 'future' && tournamentEditorState.mode === 'create' ? renderTournamentForm('future') : '',
+        ...tournaments.future.map((tournament, index) => {
+          if (tournamentEditorState.section === 'future' && tournamentEditorState.index === index) {
+            return renderTournamentForm('future', tournament, index);
+          }
+
+          return `
+            <article class="tournament-card tournament-card-future">
+              ${tournament.poster ? `<img src="${tournament.poster}" alt="Афиша ${tournament.title}" class="tournament-poster">` : ''}
+              <div class="tournament-card-meta">${tournament.date}${tournament.time ? ` · ${tournament.time}` : ''}</div>
+              <h3 class="tournament-card-title">${tournament.title}</h3>
+              <div class="tournament-future-place">${tournament.place}</div>
+              ${tournament.details ? `<div class="tournament-card-details">${tournament.details}</div>` : ''}
+              ${canManage ? `
+                <div class="tournament-card-actions">
+                  <button type="button" class="edit-btn" onclick="startTournamentEdit('future', ${index})">Редагувати</button>
+                  <button type="button" class="delete-btn" onclick="deleteTournament('future', ${index})">Видалити</button>
+                </div>
+              ` : ''}
+            </article>
+          `;
+        })
+      ].join('');
+    }
+
+    // Переміщуємо пояснення рейтингу лише на сторінку "Рейтинг"
+    function showRatingPage() {
+      ratingExplanation.classList.remove('hidden');
+    }
+    function hideRatingPage() {
+      ratingExplanation.classList.add('hidden');
+    }
+
+    // Під час завантаження показуємо пояснення рейтингу і вкладки років лише для сторінки рейтингу
+    showRatingPage();
+    showYearTabs();
+    renderTournamentsPage();
+    renderTable();
+    updateLastUpdate();
+  </script>
+</body>
+</html>
